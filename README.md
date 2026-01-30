@@ -40,9 +40,14 @@ Add this in **build.gradle** or **build.gradle.kts**
 
 ```gradle
 dependencies {
-    implementation 'com.github.Jahangir-Alam-Hridoy:DevLogCat:1.0.1'
+    implementation 'com.github.Jahangir-Alam-Hridoy:DevLogCat:<version>'
 }
 ```
+
+> **Latest Release:** [](https://jitpack.io/#Jahangir-Alam-Hridoy/DevLogCat)
+>
+> Check all available versions and build logs on [JitPack page](https://jitpack.io/#Jahangir-Alam-Hridoy/DevLogCat).
+
 ### Usage
 
 ```java
