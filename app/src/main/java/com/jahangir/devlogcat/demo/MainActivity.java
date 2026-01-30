@@ -1,10 +1,10 @@
 package com.jahangir.devlogcat.demo;
 
 import android.os.Bundle;
-import android.util.Log;
+//import android.util.Log;
 import androidx.appcompat.app.AppCompatActivity;
 import android.widget.TextView;
-import com.jahangir.devlogcat.DevLog;
+import com.jahangir.devlogcat.Log;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -16,17 +16,13 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         
         
-        // System Logcat-এও print করবে
-        Log.d(TAG, "System Logcat: onCreate");
-        
-        // DevLogCat-এ পাঠাবে
-        DevLog.d(TAG, "onCreate: Activity created");
+        Log.d(TAG, "onCreate: Activity created");
         
         // Bundle check
         if (savedInstanceState != null) {
-            DevLog.i(TAG, "onCreate: Restoring from saved state");
+            Log.i(TAG, "onCreate: Restoring from saved state");
         } else {
-            DevLog.i(TAG, "onCreate: Fresh start");
+            Log.i(TAG, "onCreate: Fresh start");
         }
         
         new android.os.Handler().postDelayed(() -> {
@@ -39,63 +35,54 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        DevLog.d(TAG, "onStart: Activity becoming visible");
-        Log.d(TAG, "System Logcat: onStart");
+        Log.d(TAG, "onStart: Activity becoming visible");
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        DevLog.d(TAG, "onResume: Activity ready for interaction");
-        Log.d(TAG, "System Logcat: onResume");
+        Log.d(TAG, "onResume: Activity ready for interaction");
     }
 
     @Override
     protected void onPause() {
-        DevLog.d(TAG, "onPause: Activity partially visible");
-        Log.d(TAG, "System Logcat: onPause");
+        Log.d(TAG, "onPause: Activity partially visible");
         super.onPause();
     }
-
+    
     @Override
     protected void onStop() {
-        DevLog.d(TAG, "onStop: Activity no longer visible");
-        Log.d(TAG, "System Logcat: onStop");
+        Log.d(TAG, "onStop: Activity no longer visible");
         super.onStop();
     }
 
     @Override
     protected void onDestroy() {
-        DevLog.d(TAG, "onDestroy: Activity being destroyed");
-        Log.d(TAG, "System Logcat: onDestroy");
+        Log.d(TAG, "onDestroy: Activity being destroyed");
         super.onDestroy();
     }
 
     @Override
     protected void onRestart() {
         super.onRestart();
-        DevLog.d(TAG, "onRestart: Activity restarting");
-        Log.d(TAG, "System Logcat: onRestart");
+        Log.d(TAG, "onRestart: Activity restarting");
     }
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        DevLog.d(TAG, "onSaveInstanceState: Saving state");
-        Log.d(TAG, "System Logcat: onSaveInstanceState");
+        Log.d(TAG, "onSaveInstanceState: Saving state");
     }
 
     @Override
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
-        DevLog.d(TAG, "onRestoreInstanceState: Restoring state");
-        Log.d(TAG, "System Logcat: onRestoreInstanceState");
+        Log.d(TAG, "onRestoreInstanceState: Restoring state");
     }
 
     @Override
     public void onBackPressed() {
-        DevLog.d(TAG, "onBackPressed: Back button pressed");
-        Log.d(TAG, "System Logcat: onBackPressed");
+        Log.d(TAG, "onBackPressed: Back button pressed");
         super.onBackPressed();
     }
 }

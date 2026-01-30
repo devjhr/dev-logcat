@@ -2,10 +2,9 @@ package com.jahangir.devlogcat;
 
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
 import androidx.annotation.NonNull;
 
-public class DevLog {
+public class Log {
     
     private static Context appContext;
     private static String viewerPackage = "com.jahangir.logviewer";
@@ -29,7 +28,7 @@ public class DevLog {
             appContext = context.getApplicationContext();
             initialized = true;
             
-            Log.d("DevLogCat", "DevLog initialized for package: " + appContext.getPackageName());
+            android.util.Log.d("DevLogCat", "DevLog initialized for package: " + appContext.getPackageName());
         }
     }
     
@@ -54,15 +53,15 @@ public class DevLog {
                 
                 if (context != null) {
                     initialize(context);
-                    Log.d("DevLogCat", "Auto-initialized via reflection fallback");
+                    android.util.Log.d("DevLogCat", "Auto-initialized via reflection fallback");
                 }
             } catch (Exception e) {
-                Log.w("DevLogCat", "Could not auto-initialize: " + e.getMessage());
+                android.util.Log.w("DevLogCat", "Could not auto-initialize: " + e.getMessage());
             }
         }
         
         if (!initialized) {
-            Log.w("DevLogCat", 
+            android.util.Log.w("DevLogCat", 
                 "DevLog not initialized. Add initialization provider in AndroidManifest.xml " +
                 "or call DevLog.init(context) in your Application class.");
         }
@@ -72,6 +71,7 @@ public class DevLog {
      * Main send method (context-free version)
      */
     public static void send(String level, String tag, String message) {
+	if (message == null) message = "null";
         ensureInitialized();
         
         // Always log to system logcat
@@ -82,7 +82,7 @@ public class DevLog {
             try {
                 sendSingleBroadcast(level, tag, message);
             } catch (Exception e) {
-                Log.e("DevLogCat", "Failed to send to viewer", e);
+                android.util.Log.e("DevLogCat", "Failed to send to viewer", e);
             }
         }
     }
@@ -103,26 +103,27 @@ public class DevLog {
     private static void logToSystem(String level, String tag, String message) {
         switch (level.toUpperCase()) {
             case "VERBOSE":
-                Log.v(tag, message);
+                android.util.Log.v(tag, message);
                 break;
             case "DEBUG":
-                Log.d(tag, message);
+                android.util.Log.d(tag, message);
                 break;
             case "INFO":
-                Log.i(tag, message);
+                android.util.Log.i(tag, message);
                 break;
             case "WARN":
-                Log.w(tag, message);
+                android.util.Log.w(tag, message);
                 break;
             case "ERROR":
-                Log.e(tag, message);
+                android.util.Log.e(tag, message);
                 break;
             default:
-                Log.d(tag, message);
+                android.util.Log.d(tag, message);
         }
     }
     
     private static void sendSingleBroadcast(String level, String tag, String message) {
+        String appName = appContext.getString(appContext.getApplicationInfo().labelRes);
         try {
             Intent intent = new Intent("DEV_LOGGER");
             intent.putExtra("level", level);
@@ -130,18 +131,16 @@ public class DevLog {
             intent.putExtra("msg", message);
             intent.putExtra("pkg", appContext.getPackageName());
             intent.putExtra("time", System.currentTimeMillis());
-            
+            intent.putExtra("pid", android.os.Process.myPid());
+            intent.putExtra("tid", android.os.Process.myTid());
+            intent.putExtra("app_name", appName);
             intent.setPackage(viewerPackage);
-            
             appContext.sendBroadcast(intent);
-            
             // Log success
-            String truncatedMsg = message.length() > 30 ? 
-                message.substring(0, 30) + "..." : message;
-            Log.d("DevLogCat", "Log sent to viewer: [" + level + "] " + tag + " - " + truncatedMsg);
-            
+            String truncatedMsg = message.length() > 30 ? message.substring(0, 30) + "..." : message;
+            android.util.Log.d("DevLogCat", "Log sent to viewer: [" + level + "] " + tag + " - " + truncatedMsg);
         } catch (Exception e) {
-            Log.e("DevLogCat", "Failed to send broadcast", e);
+            android.util.Log.e("DevLogCat", "Failed to send broadcast", e);
         }
     }
     
@@ -192,7 +191,7 @@ public class DevLog {
      */
     public static void setViewerPackage(String packageName) {
         viewerPackage = packageName;
-        Log.d("DevLogCat", "Viewer package set to: " + packageName);
+        android.util.Log.d("DevLogCat", "Viewer package set to: " + packageName);
     }
     
     /**
