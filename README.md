@@ -22,9 +22,9 @@ Also perfect for anyone needing fast debugging logs on mobile devices.
 
 ### Screenshots
 
-![Log Viewer](screenshots/image1.png)
-![Log Viewer](screenshots/image2.png)
-![Log Viewer](screenshots/image3.png)
+![Log Viewer](screenshots/image1.jpg)
+![Log Viewer](screenshots/image2.jpg)
+![Log Viewer](screenshots/image3.jpg)
 
 ## 📦 Installation
 
