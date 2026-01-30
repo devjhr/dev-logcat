@@ -9,8 +9,7 @@ Also perfect for anyone needing fast debugging logs on mobile devices.
 
 ## ✨ Features
 
-## ✨ Features
-
+- [x] Easy to use
 - [x] Multi APP supported
 - [x] Level-based filtering
 - [x] Tag-based filtering
