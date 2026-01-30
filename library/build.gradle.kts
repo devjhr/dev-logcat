@@ -51,9 +51,9 @@ afterEvaluate {
             create<MavenPublication>("release") {
 
                 //  THIS MUST MATCH YOUR GITHUB
-                groupId = "com.github.Jahangir-Alam-Hridoy"
+                groupId = "com.github.jhrddev"
                 artifactId = "devlogcat"
-                version = "1.0.2"
+                version = "1.0.3"
 
                 from(components["release"])
             }
