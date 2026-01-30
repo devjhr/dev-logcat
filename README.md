@@ -1,8 +1,9 @@
 # DevLogCat 📱🧩  
-A lightweight Android logcat library for **for app developers specially AIDE users** — simple, structured, and readable logs **right from your phone**.  
-Also perfect for anyone needing fast debugging logs on mobile devices.
 
 [![](https://jitpack.io/v/Jahangir-Alam-Hridoy/DevLogCat.svg)](https://jitpack.io/#Jahangir-Alam-Hridoy/DevLogCat)
+
+A lightweight Android logcat library for **for app developers specially AIDE users** — simple, structured, and readable logs **right from your phone**.  
+Also perfect for anyone needing fast debugging logs on mobile devices.
 
 ---
 
