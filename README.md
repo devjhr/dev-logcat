@@ -11,7 +11,7 @@ Also perfect for anyone needing fast debugging logs on mobile devices.
 
 ## ✨ Features
 
-- [x] multi APP supported
+- [x] Multi APP supported
 - [x] Level-based filtering
 - [x] Tag-based filtering
 - [x] ⚡ Lightweight, fast, and mobile-friendly
@@ -19,6 +19,12 @@ Also perfect for anyone needing fast debugging logs on mobile devices.
 - [x] 🚫 No heavy dependencies
 - [x] 🔥 Developer-friendly API
 ---
+
+### Screenshots
+
+![Log Viewer](screenshots/image1.png)
+![Log Viewer](screenshots/image2.png)
+![Log Viewer](screenshots/image3.png)
 
 ## 📦 Installation
 
