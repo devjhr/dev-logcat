@@ -1,6 +1,6 @@
 # DevLogCat 📱🧩  
 
-[![](https://jitpack.io/v/jhrddev/DevLogCat.svg)](https://jitpack.io/#jhrddev/DevLogCat)
+[![](https://jitpack.io/v/devjhr/DevLogCat.svg)](https://jitpack.io/#devjhr/DevLogCat)
 
 A lightweight Android logcat library for **for app developers specially AIDE users** — simple, structured, and readable logs **right from your phone**.  
 Also perfect for anyone needing fast debugging logs on mobile devices.
@@ -58,9 +58,9 @@ dependencies {
 }
 ```
 
-> **Latest Release:** [](https://github.com/Jahangir-Alam-Hridoy/DevLogCat/releases/tag/1.0.1)
+> **Latest Release:** [](https://github.com/devjhr/DevLogCat/releases/tag/1.0.4)
 >
-> Check all available versions and release notes on the [GitHub Releases page](https://github.com/Jahangir-Alam-Hridoy/DevLogCat/releases).
+> Check all available versions and release notes on the [GitHub Releases page](https://github.com/devjhr/DevLogCat/releases).
 
 ### Usage
 
