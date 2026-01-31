@@ -67,8 +67,8 @@ dependencies {
 ### Usage
 
 ```java
-~~`import android.util.Log;`~~  
-`import com.jahangir.devlogcat.Log;`
+~~import android.util.Log;~~  
+import com.jahangir.devlogcat.Log;
 ```
 ```java
 Log.d("MainActivity", "App started");
