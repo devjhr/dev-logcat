@@ -18,6 +18,9 @@ public class DevLogInitializer implements Initializer<Void> {
         // Auto-initialize DevLog when app starts
         LogCollector.initialize(context);
         Log.initialize(context);
+        
+        Thread.setDefaultUncaughtExceptionHandler(new CrashHandler(context));
+        
         return null;
     }
     
