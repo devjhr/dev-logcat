@@ -54,7 +54,7 @@ Add this in **build.gradle** or **build.gradle.kts**
 
 ```gradle
 dependencies {
-    implementation 'com.github.jhrddev:DevLogCat:<version>'
+    implementation 'com.github.devjhr:dev-logcat:<version>'
 }
 ```
 
