@@ -13,6 +13,8 @@ Also perfect for anyone needing fast debugging logs on mobile devices.
 - [x] Multi APP supported
 - [x] Level-based filtering
 - [x] Tag-based filtering
+- [x] Global Crash Handler (uncaught exceptions)
+- [x] Detects app startup crashes
 - [x] ⚡ Lightweight, fast, and mobile-friendly
 - [x] 🧩 Easy integration with any Android project
 - [x] 🚫 No heavy dependencies
@@ -66,7 +68,8 @@ dependencies {
 
 ```java
 import com.jahangir.devlogcat.Log;
-
+```
+```java
 Log.d("MainActivity", "App started");
 Log.i("Auth", "Login success");
 Log.w("Network", "Slow response");
