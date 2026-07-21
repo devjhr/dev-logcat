@@ -16,8 +16,8 @@ public class DevLogInitializer implements Initializer<Void> {
     @Override
     public Void create(@NonNull Context context) {
         // Auto-initialize DevLog when app starts
-        LoggerAndroidPE.initialize(context);
-        DevLog.initialize(context);
+        LogCollector.initialize(context);
+        Log.initialize(context);
         return null;
     }
     
