@@ -1,10 +1,9 @@
 package com.jahangir.devlogcat.demo;
 
 import android.os.Bundle;
-//import android.util.Log;
+import android.util.Log;
 import androidx.appcompat.app.AppCompatActivity;
 import android.widget.TextView;
-import com.jahangir.devlogcat.Log;
 
 
 
@@ -26,11 +25,6 @@ public class MainActivity extends AppCompatActivity {
         } else {
             Log.i(TAG, "onCreate: Fresh start");
         }
-        
-        new android.os.Handler().postDelayed(() -> {
-            String test = null;
-            test.length(); //  NullPointerException
-        }, 3000);
         
     }
 

@@ -1,219 +1,42 @@
 package com.jahangir.devlogcat;
 
 import android.content.Context;
-import android.content.Intent;
-import android.util.Log;
-import androidx.annotation.NonNull;
 
-public class DevLog {
-    
-    private static Context appContext;
-    private static String viewerPackage = "com.jahangir.logviewer";
-    private static volatile boolean initialized = false;
-    private static final Object lock = new Object();
-    
+/**
+ * Configuration entry point for DevLogCat.
+ *
+ * <p>The library no longer provides a custom logging API. Every call the host app makes to
+ * {@link android.util.Log} is captured automatically by {@link LogCollector} and forwarded to
+ * the viewer app. Use this class only to initialise manually or to change the viewer package.
+ */
+public final class DevLog {
+
+    private static volatile String viewerPackage = "com.jahangir";
+
+    private DevLog() {
+    }
+
     /**
-     * Internal initialization method
-     * Called automatically by Startup library
+     * Optional manual initialisation. The Jetpack Startup initializer already calls this.
      */
-    static void initialize(@NonNull Context context) {
-        synchronized (lock) {
-            if (initialized) {
-                return;
-            }
-            
-            if (context == null) {
-                throw new IllegalArgumentException("Context cannot be null");
-            }
-            
-            appContext = context.getApplicationContext();
-            initialized = true;
-            
-            Log.d("DevLogCat", "DevLog initialized for package: " + appContext.getPackageName());
-        }
+    public static void init(Context context) {
+        LogCollector.initialize(context);
     }
-    
+
     /**
-     * Public init method (optional - for manual initialization)
-     */
-    public static void init(@NonNull Context context) {
-        initialize(context);
-    }
-    
-    /**
-     * Ensure DevLog is initialized before use
-     */
-    private static void ensureInitialized() {
-        if (!initialized) {
-            // If not initialized, try to get context from Application
-            try {
-                // Try to get Application context via reflection (fallback)
-                Class<?> activityThreadClass = Class.forName("android.app.ActivityThread");
-                Object activityThread = activityThreadClass.getMethod("currentActivityThread").invoke(null);
-                Context context = (Context) activityThreadClass.getMethod("getApplication").invoke(activityThread);
-                
-                if (context != null) {
-                    initialize(context);
-                    Log.d("DevLogCat", "Auto-initialized via reflection fallback");
-                }
-            } catch (Exception e) {
-                Log.w("DevLogCat", "Could not auto-initialize: " + e.getMessage());
-            }
-        }
-        
-        if (!initialized) {
-            Log.w("DevLogCat", 
-                "DevLog not initialized. Add initialization provider in AndroidManifest.xml " +
-                "or call DevLog.init(context) in your Application class.");
-        }
-    }
-    
-    /**
-     * Main send method (context-free version)
-     */
-    public static void send(String level, String tag, String message) {
-        ensureInitialized();
-        
-        // Always log to system logcat
-        logToSystem(level, tag, message);
-        
-        // Send to viewer app if initialized
-        if (initialized) {
-            try {
-                sendSingleBroadcast(level, tag, message);
-            } catch (Exception e) {
-                Log.e("DevLogCat", "Failed to send to viewer", e);
-            }
-        }
-    }
-    
-    /**
-     * Send method with context (backward compatibility)
-     */
-    public static void send(Context context, String level, String tag, String message) {
-        // Initialize if not already done
-        if (context != null && !initialized) {
-            init(context);
-        }
-        
-        // Use context-free version
-        send(level, tag, message);
-    }
-    
-    private static void logToSystem(String level, String tag, String message) {
-        switch (level.toUpperCase()) {
-            case "VERBOSE":
-                Log.v(tag, message);
-                break;
-            case "DEBUG":
-                Log.d(tag, message);
-                break;
-            case "INFO":
-                Log.i(tag, message);
-                break;
-            case "WARN":
-                Log.w(tag, message);
-                break;
-            case "ERROR":
-                Log.e(tag, message);
-                break;
-            default:
-                Log.d(tag, message);
-        }
-    }
-    
-    private static void sendSingleBroadcast(String level, String tag, String message) {
-        try {
-            Intent intent = new Intent("DEV_LOGGER");
-            intent.putExtra("level", level);
-            intent.putExtra("tag", tag);
-            intent.putExtra("msg", message);
-            intent.putExtra("pkg", appContext.getPackageName());
-            intent.putExtra("time", System.currentTimeMillis());
-            
-            intent.setPackage(viewerPackage);
-            
-            appContext.sendBroadcast(intent);
-            
-            // Log success
-            String truncatedMsg = message.length() > 30 ? 
-                message.substring(0, 30) + "..." : message;
-            Log.d("DevLogCat", "Log sent to viewer: [" + level + "] " + tag + " - " + truncatedMsg);
-            
-        } catch (Exception e) {
-            Log.e("DevLogCat", "Failed to send broadcast", e);
-        }
-    }
-    
-    // ================= CONTEXT-FREE METHODS =================
-    
-    public static void v(String tag, String message) {
-        send("VERBOSE", tag, message);
-    }
-    
-    public static void d(String tag, String message) {
-        send("DEBUG", tag, message);
-    }
-    
-    public static void i(String tag, String message) {
-        send("INFO", tag, message);
-    }
-    
-    public static void w(String tag, String message) {
-        send("WARN", tag, message);
-    }
-    
-    public static void e(String tag, String message) {
-        send("ERROR", tag, message);
-    }
-    
-    // ================= CONTEXT METHODS (Backward Compatible) =================
-    
-    public static void d(Context context, String tag, String message) {
-        send(context, "DEBUG", tag, message);
-    }
-    
-    public static void i(Context context, String tag, String message) {
-        send(context, "INFO", tag, message);
-    }
-    
-    public static void w(Context context, String tag, String message) {
-        send(context, "WARN", tag, message);
-    }
-    
-    public static void e(Context context, String tag, String message) {
-        send(context, "ERROR", tag, message);
-    }
-    
-    // ================= CONFIGURATION METHODS =================
-    
-    /**
-     * Set custom viewer app package
+     * Set the package name of the viewer app that receives the DEV_LOGGER broadcasts.
      */
     public static void setViewerPackage(String packageName) {
-        viewerPackage = packageName;
-        Log.d("DevLogCat", "Viewer package set to: " + packageName);
+        if (packageName != null && !packageName.trim().isEmpty()) {
+            viewerPackage = packageName.trim();
+        }
     }
-    
-    /**
-     * Get current viewer package
-     */
+
     public static String getViewerPackage() {
         return viewerPackage;
     }
-    
-    /**
-     * Check if DevLog is initialized
-     */
+
     public static boolean isInitialized() {
-        return initialized;
-    }
-    
-    /**
-     * Get application context (for advanced use)
-     */
-    public static Context getAppContext() {
-        ensureInitialized();
-        return appContext;
+        return LogCollector.isInitialized();
     }
 }
